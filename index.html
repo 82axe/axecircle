@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>inner circle</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0f0f0f;
+      color: #ffffff;
+    }
+    .container {
+      width: 100%;
+      max-width: 420px;
+      padding: 40px;
+      border: 1px solid #2a2a2a;
+      background: #151515;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 24px;
+      letter-spacing: 1px;
+    }
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 20px;
+      background: #0f0f0f;
+      border: 1px solid #333;
+      color: #fff;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    .error {
+      margin-top: 15px;
+      color: #ff5c5c;
+      text-align: center;
+      display: none;
+    }
+    .content {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="loginBox">
+    <h1>inner circle</h1>
+    <input type="password" id="passwordInput" placeholder="password" />
+    <button onclick="checkPassword()">접속</button>
+    <div class="error" id="errorMsg">접근 권한이 없습니다.</div>
+  </div>
+
+  <div class="container content" id="contentBox">
+    <h1>inner circle</h1>
+    <p>
+      이 영역은 비밀번호 인증 후에만 접근 가능한 내부 정보 공간입니다.<br /><br />
+      • 공개되지 않은 인사이트<br />
+      • 전략 메모<br />
+      • 내부 전용 콘텐츠
+    </p>
+  </div>
+
+  <script>
+    const FIXED_PASSWORD = "666";
+
+    function checkPassword() {
+      const input = document.getElementById("passwordInput").value;
+      const errorMsg = document.getElementById("errorMsg");
+
+      if (input === FIXED_PASSWORD) {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("contentBox").style.display = "block";
+      } else {
+        errorMsg.style.display = "block";
+      }
+    }
+  </script>
+
+</body>
+</html>
