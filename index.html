@@ -530,6 +530,367 @@
             font-family: 'Space Mono', monospace;
         }
 
+        /* ==================== Members 페이지 스타일 ==================== */
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 40px 20px;
+        }
+
+        .member-card {
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid var(--border-subtle);
+            padding: 30px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .member-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.15);
+        }
+
+        .member-avatar {
+            font-size: 64px;
+            margin-bottom: 20px;
+            filter: grayscale(0.3);
+        }
+
+        .member-info {
+            margin-bottom: 20px;
+        }
+
+        .member-name {
+            font-size: 20px;
+            color: var(--accent-gold);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .member-role {
+            font-size: 14px;
+            color: rgba(245, 245, 245, 0.6);
+            margin-bottom: 12px;
+        }
+
+        .member-status {
+            font-size: 12px;
+            font-family: 'Space Mono', monospace;
+            padding: 6px 12px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .member-status.online {
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+        }
+
+        .member-status.offline {
+            color: rgba(245, 245, 245, 0.4);
+            background: rgba(245, 245, 245, 0.05);
+            border: 1px solid rgba(245, 245, 245, 0.1);
+        }
+
+        .member-stats {
+            display: flex;
+            gap: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-subtle);
+            font-size: 12px;
+            color: rgba(245, 245, 245, 0.5);
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* ==================== Projects 페이지 스타일 ==================== */
+        .projects-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .project-card {
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid var(--border-subtle);
+            padding: 35px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent-gold);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.1);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 25px;
+        }
+
+        .project-title {
+            font-size: 28px;
+            color: var(--accent-gold);
+            letter-spacing: 2px;
+            font-family: 'Space Mono', monospace;
+            margin-bottom: 10px;
+        }
+
+        .project-status {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-family: 'Space Mono', monospace;
+            text-transform: uppercase;
+        }
+
+        .project-status.active {
+            background: rgba(74, 222, 128, 0.15);
+            border: 1px solid rgba(74, 222, 128, 0.4);
+            color: #4ade80;
+        }
+
+        .project-status.planning {
+            background: rgba(251, 191, 36, 0.15);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            color: #fbbf24;
+        }
+
+        .project-description {
+            font-size: 15px;
+            line-height: 1.8;
+            color: rgba(245, 245, 245, 0.7);
+            margin-bottom: 25px;
+        }
+
+        .project-team {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 20px 0;
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .team-label {
+            font-size: 12px;
+            color: var(--accent-gold);
+            letter-spacing: 2px;
+            font-family: 'Space Mono', monospace;
+            text-transform: uppercase;
+        }
+
+        .team-avatars {
+            display: flex;
+            gap: 10px;
+        }
+
+        .team-avatar {
+            font-size: 28px;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .team-avatar:hover {
+            transform: scale(1.2);
+            opacity: 1;
+        }
+
+        .project-progress {
+            margin-top: 20px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: rgba(245, 245, 245, 0.6);
+            font-family: 'Space Mono', monospace;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(245, 245, 245, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-gold), #f0c14b);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* ==================== Calendar 스타일 ==================== */
+        .calendar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 25px;
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .calendar-title {
+            font-size: 32px;
+            color: var(--accent-gold);
+            letter-spacing: 3px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        .calendar-nav button {
+            padding: 10px 25px;
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-nav button:hover {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid var(--border-subtle);
+            padding: 20px;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: var(--accent-gold);
+            letter-spacing: 2px;
+            font-family: 'Space Mono', monospace;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .calendar-day {
+            min-height: 100px;
+            padding: 12px;
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .calendar-day:hover {
+            background: rgba(212, 175, 55, 0.05);
+            border-color: var(--accent-gold);
+        }
+
+        .calendar-day.today {
+            border: 2px solid var(--accent-gold);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .calendar-day.other-month {
+            opacity: 0.3;
+        }
+
+        .day-number {
+            font-size: 14px;
+            color: rgba(245, 245, 245, 0.7);
+            font-family: 'Space Mono', monospace;
+            margin-bottom: 8px;
+        }
+
+        .day-event {
+            font-size: 10px;
+            padding: 4px 8px;
+            margin-top: 4px;
+            border-radius: 3px;
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--accent-gold);
+            border-left: 2px solid var(--accent-gold);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .upcoming-events {
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .upcoming-title {
+            font-size: 24px;
+            color: var(--accent-gold);
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .event-item {
+            padding: 20px;
+            margin-bottom: 15px;
+            background: rgba(10, 10, 10, 0.5);
+            border-left: 3px solid var(--accent-gold);
+            transition: all 0.3s ease;
+        }
+
+        .event-item:hover {
+            background: rgba(212, 175, 55, 0.05);
+            transform: translateX(5px);
+        }
+
+        .event-date {
+            font-size: 12px;
+            color: var(--accent-gold);
+            font-family: 'Space Mono', monospace;
+            margin-bottom: 8px;
+        }
+
+        .event-title {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .event-description {
+            font-size: 13px;
+            color: rgba(245, 245, 245, 0.6);
+        }
+
         .nav-button {
             padding: 12px 30px;
             background: transparent;
@@ -676,6 +1037,38 @@
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
+
+            .members-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-header {
+                flex-direction: column;
+                align-items: start;
+                gap: 15px;
+            }
+
+            .calendar-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .calendar-title {
+                font-size: 24px;
+            }
+
+            .calendar-grid {
+                padding: 10px;
+            }
+
+            .calendar-day {
+                min-height: 80px;
+                padding: 8px;
+            }
+
+            .team-avatars {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
@@ -760,24 +1153,112 @@
             <p class="section-subtitle">Our distinguished community</p>
         </section>
 
-        <div class="content-grid">
-            <div class="content-card">
-                <div class="card-icon">👤</div>
-                <div class="card-title">Active Members</div>
-                <div class="card-description">12 carefully selected individuals forming the core of our exclusive community.</div>
-                <div class="card-meta">Last updated: Today</div>
-            </div>
-            <div class="content-card">
-                <div class="card-icon">🎯</div>
-                <div class="card-title">Member Directory</div>
-                <div class="card-description">Connect with other members, view profiles, and build meaningful relationships.</div>
-                <div class="card-meta">48 connections made</div>
-            </div>
-            <div class="content-card">
-                <div class="card-icon">⭐</div>
-                <div class="card-title">Member Spotlight</div>
-                <div class="card-description">Monthly features highlighting exceptional contributions from our community.</div>
-                <div class="card-meta">3 featured this month</div>
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <!-- 회원 목록 -->
+            <div class="members-grid">
+                <div class="member-card">
+                    <div class="member-avatar">👤</div>
+                    <div class="member-info">
+                        <h3 class="member-name">Alex Chen</h3>
+                        <p class="member-role">Tech Entrepreneur</p>
+                        <div class="member-status online">● Online</div>
+                    </div>
+                    <div class="member-stats">
+                        <span>15 Projects</span>
+                        <span>8 Connections</span>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-avatar">👩</div>
+                    <div class="member-info">
+                        <h3 class="member-name">Sarah Kim</h3>
+                        <p class="member-role">Creative Director</p>
+                        <div class="member-status online">● Online</div>
+                    </div>
+                    <div class="member-stats">
+                        <span>12 Projects</span>
+                        <span>10 Connections</span>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-avatar">👨</div>
+                    <div class="member-info">
+                        <h3 class="member-name">James Park</h3>
+                        <p class="member-role">Investment Analyst</p>
+                        <div class="member-status offline">● Offline</div>
+                    </div>
+                    <div class="member-stats">
+                        <span>8 Projects</span>
+                        <span>6 Connections</span>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-avatar">👩‍💼</div>
+                    <div class="member-info">
+                        <h3 class="member-name">Emily Watson</h3>
+                        <p class="member-role">Product Manager</p>
+                        <div class="member-status online">● Online</div>
+                    </div>
+                    <div class="member-stats">
+                        <span>20 Projects</span>
+                        <span>12 Connections</span>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-avatar">🧑</div>
+                    <div class="member-info">
+                        <h3 class="member-name">David Lee</h3>
+                        <p class="member-role">Data Scientist</p>
+                        <div class="member-status offline">● Offline</div>
+                    </div>
+                    <div class="member-stats">
+                        <span>18 Projects</span>
+                        <span>9 Connections</span>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-avatar">👩‍🎨</div>
+                    <div class="member-info">
+                        <h3 class="member-name">Maria Garcia</h3>
+                        <p class="member-role">UX Designer</p>
+                        <div class="member-status online">● Online</div>
+                    </div>
+                    <div class="member-stats">
+                        <span>14 Projects</span>
+                        <span>11 Connections</span>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-avatar">🧑‍💻</div>
+                    <div class="member-info">
+                        <h3 class="member-name">Michael Zhang</h3>
+                        <p class="member-role">Full Stack Developer</p>
+                        <div class="member-status online">● Online</div>
+                    </div>
+                    <div class="member-stats">
+                        <span>22 Projects</span>
+                        <span>10 Connections</span>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-avatar">👨‍💼</div>
+                    <div class="member-info">
+                        <h3 class="member-name">Robert Johnson</h3>
+                        <p class="member-role">Business Consultant</p>
+                        <div class="member-status offline">● Offline</div>
+                    </div>
+                    <div class="member-stats">
+                        <span>16 Projects</span>
+                        <span>7 Connections</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -828,24 +1309,67 @@
             <p class="section-subtitle">Exclusive gatherings & experiences</p>
         </section>
 
-        <div class="content-grid">
-            <div class="content-card">
-                <div class="card-icon">📅</div>
-                <div class="card-title">Upcoming Events</div>
-                <div class="card-description">6 exclusive events scheduled for members only.</div>
-                <div class="card-meta">Next: Feb 14, 2026</div>
+        <div class="calendar-container">
+            <!-- Calendar Header -->
+            <div class="calendar-header">
+                <h2 class="calendar-title" id="calendarMonth">February 2026</h2>
+                <div class="calendar-nav">
+                    <button onclick="changeMonth(-1)">← Prev</button>
+                    <button onclick="changeMonth(0)">Today</button>
+                    <button onclick="changeMonth(1)">Next →</button>
+                </div>
             </div>
-            <div class="content-card">
-                <div class="card-icon">🎉</div>
-                <div class="card-title">Past Events</div>
-                <div class="card-description">Relive memories from our previous gatherings and meetups.</div>
-                <div class="card-meta">24 events hosted</div>
+
+            <!-- Calendar Grid -->
+            <div class="calendar-grid" id="calendarGrid">
+                <div class="calendar-day-header">Sun</div>
+                <div class="calendar-day-header">Mon</div>
+                <div class="calendar-day-header">Tue</div>
+                <div class="calendar-day-header">Wed</div>
+                <div class="calendar-day-header">Thu</div>
+                <div class="calendar-day-header">Fri</div>
+                <div class="calendar-day-header">Sat</div>
             </div>
-            <div class="content-card">
-                <div class="card-icon">✨</div>
-                <div class="card-title">Private Sessions</div>
-                <div class="card-description">Intimate workshops and masterclasses with industry leaders.</div>
-                <div class="card-meta">Monthly</div>
+
+            <!-- Upcoming Events -->
+            <div class="upcoming-events">
+                <h3 class="upcoming-title">Upcoming Events</h3>
+                
+                <div class="event-item">
+                    <div class="event-date">Feb 14, 2026 • 7:00 PM</div>
+                    <div class="event-title">Valentine's Networking Dinner</div>
+                    <div class="event-description">Exclusive dinner gathering at The Grand Restaurant with keynote speaker</div>
+                </div>
+
+                <div class="event-item">
+                    <div class="event-date">Feb 20, 2026 • 2:00 PM</div>
+                    <div class="event-title">Workshop: AI & Future of Work</div>
+                    <div class="event-description">Interactive workshop on leveraging AI in business and personal productivity</div>
+                </div>
+
+                <div class="event-item">
+                    <div class="event-date">Feb 25, 2026 • 6:00 PM</div>
+                    <div class="event-title">Monthly Circle Meetup</div>
+                    <div class="event-description">Regular monthly gathering to share insights and updates</div>
+                </div>
+
+                <div class="event-item">
+                    <div class="event-date">Mar 05, 2026 • 10:00 AM</div>
+                    <div class="event-title">Innovation Summit 2026</div>
+                    <div class="event-description">Full-day summit featuring member presentations and guest speakers</div>
+                </div>
+
+                <div class="event-item">
+                    <div class="event-date">Mar 12, 2026 • 5:00 PM</div>
+                    <div class="event-title">Creative Collaboration Session</div>
+                    <div class="event-description">Brainstorming session for new project ideas and partnerships</div>
+                </div>
+
+                <div class="event-item">
+                    <div class="event-date">Mar 18, 2026 • 7:30 PM</div>
+                    <div class="event-title">Private Film Screening</div>
+                    <div class="event-description">Exclusive screening followed by discussion with the director</div>
+                </div>
             </div>
         </div>
     </div>
@@ -896,24 +1420,157 @@
             <p class="section-subtitle">Collaborative endeavors</p>
         </section>
 
-        <div class="content-grid">
-            <div class="content-card">
-                <div class="card-icon">🚀</div>
-                <div class="card-title">Active Projects</div>
-                <div class="card-description">Current collaborative initiatives and ventures by our members.</div>
-                <div class="card-meta">8 ongoing</div>
+        <div class="projects-container">
+            <!-- Project 1 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div>
+                        <h3 class="project-title">AI Platform Development</h3>
+                        <p class="project-description">Building an enterprise AI solution with advanced machine learning capabilities for predictive analytics and automation.</p>
+                    </div>
+                    <div class="project-status active">Active</div>
+                </div>
+                
+                <div class="project-team">
+                    <span class="team-label">Team Members:</span>
+                    <div class="team-avatars">
+                        <span class="team-avatar" title="Alex Chen">👤</span>
+                        <span class="team-avatar" title="Michael Zhang">🧑‍💻</span>
+                        <span class="team-avatar" title="David Lee">🧑</span>
+                        <span class="team-avatar" title="Emily Watson">👩‍💼</span>
+                    </div>
+                </div>
+
+                <div class="project-progress">
+                    <div class="progress-label">
+                        <span>Progress</span>
+                        <span>75%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                </div>
             </div>
-            <div class="content-card">
-                <div class="card-icon">🤝</div>
-                <div class="card-title">Partnerships</div>
-                <div class="card-description">Strategic collaborations and joint ventures within the circle.</div>
-                <div class="card-meta">14 partnerships</div>
+
+            <!-- Project 2 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div>
+                        <h3 class="project-title">Creative Studio Launch</h3>
+                        <p class="project-description">Launching a collaborative creative studio focused on brand identity and digital experiences for emerging startups.</p>
+                    </div>
+                    <div class="project-status active">Active</div>
+                </div>
+                
+                <div class="project-team">
+                    <span class="team-label">Team Members:</span>
+                    <div class="team-avatars">
+                        <span class="team-avatar" title="Sarah Kim">👩</span>
+                        <span class="team-avatar" title="Maria Garcia">👩‍🎨</span>
+                        <span class="team-avatar" title="Emily Watson">👩‍💼</span>
+                    </div>
+                </div>
+
+                <div class="project-progress">
+                    <div class="progress-label">
+                        <span>Progress</span>
+                        <span>60%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%"></div>
+                    </div>
+                </div>
             </div>
-            <div class="content-card">
-                <div class="card-icon">💼</div>
-                <div class="card-title">Opportunities</div>
-                <div class="card-description">Exclusive business and collaboration opportunities for members.</div>
-                <div class="card-meta">5 new offers</div>
+
+            <!-- Project 3 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div>
+                        <h3 class="project-title">Investment Fund</h3>
+                        <p class="project-description">Establishing a micro venture fund to support early-stage tech startups with mentorship and capital.</p>
+                    </div>
+                    <div class="project-status planning">Planning</div>
+                </div>
+                
+                <div class="project-team">
+                    <span class="team-label">Team Members:</span>
+                    <div class="team-avatars">
+                        <span class="team-avatar" title="James Park">👨</span>
+                        <span class="team-avatar" title="Robert Johnson">👨‍💼</span>
+                        <span class="team-avatar" title="Alex Chen">👤</span>
+                    </div>
+                </div>
+
+                <div class="project-progress">
+                    <div class="progress-label">
+                        <span>Progress</span>
+                        <span>30%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 30%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div>
+                        <h3 class="project-title">Community Platform</h3>
+                        <p class="project-description">Developing a next-generation community platform with integrated collaboration tools and knowledge sharing.</p>
+                    </div>
+                    <div class="project-status active">Active</div>
+                </div>
+                
+                <div class="project-team">
+                    <span class="team-label">Team Members:</span>
+                    <div class="team-avatars">
+                        <span class="team-avatar" title="Michael Zhang">🧑‍💻</span>
+                        <span class="team-avatar" title="Maria Garcia">👩‍🎨</span>
+                        <span class="team-avatar" title="David Lee">🧑</span>
+                        <span class="team-avatar" title="Sarah Kim">👩</span>
+                    </div>
+                </div>
+
+                <div class="project-progress">
+                    <div class="progress-label">
+                        <span>Progress</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 5 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div>
+                        <h3 class="project-title">Educational Series</h3>
+                        <p class="project-description">Creating a comprehensive educational video series on entrepreneurship and business growth strategies.</p>
+                    </div>
+                    <div class="project-status active">Active</div>
+                </div>
+                
+                <div class="project-team">
+                    <span class="team-label">Team Members:</span>
+                    <div class="team-avatars">
+                        <span class="team-avatar" title="Emily Watson">👩‍💼</span>
+                        <span class="team-avatar" title="Robert Johnson">👨‍💼</span>
+                        <span class="team-avatar" title="Sarah Kim">👩</span>
+                    </div>
+                </div>
+
+                <div class="project-progress">
+                    <div class="progress-label">
+                        <span>Progress</span>
+                        <span>45%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 45%"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1203,6 +1860,110 @@
                 drawConnections();
             }
         });
+
+        // ==================== 캘린더 기능 ====================
+        let currentDate = new Date(2026, 1, 7); // Feb 7, 2026
+
+        const events = {
+            '2026-2-14': ['Valentine\'s Dinner'],
+            '2026-2-20': ['AI Workshop'],
+            '2026-2-25': ['Monthly Meetup'],
+            '2026-3-5': ['Innovation Summit'],
+            '2026-3-12': ['Collaboration'],
+            '2026-3-18': ['Film Screening']
+        };
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            if (!grid) return;
+
+            // Clear existing days (keep headers)
+            const headers = grid.querySelectorAll('.calendar-day-header');
+            grid.innerHTML = '';
+            headers.forEach(header => grid.appendChild(header));
+
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+
+            // Update month title
+            const monthTitle = document.getElementById('calendarMonth');
+            if (monthTitle) {
+                const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                    'July', 'August', 'September', 'October', 'November', 'December'];
+                monthTitle.textContent = `${monthNames[month]} ${year}`;
+            }
+
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const prevLastDay = new Date(year, month, 0);
+
+            const firstDayOfWeek = firstDay.getDay();
+            const lastDateOfMonth = lastDay.getDate();
+            const prevLastDate = prevLastDay.getDate();
+
+            // Previous month days
+            for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.innerHTML = `<div class="day-number">${prevLastDate - i}</div>`;
+                grid.appendChild(day);
+            }
+
+            // Current month days
+            const today = new Date();
+            for (let i = 1; i <= lastDateOfMonth; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day';
+                
+                // Check if today
+                if (year === today.getFullYear() && 
+                    month === today.getMonth() && 
+                    i === today.getDate()) {
+                    day.classList.add('today');
+                }
+
+                let dayHTML = `<div class="day-number">${i}</div>`;
+
+                // Check for events
+                const eventKey = `${year}-${month + 1}-${i}`;
+                if (events[eventKey]) {
+                    events[eventKey].forEach(event => {
+                        dayHTML += `<div class="day-event">${event}</div>`;
+                    });
+                }
+
+                day.innerHTML = dayHTML;
+                grid.appendChild(day);
+            }
+
+            // Next month days
+            const totalDays = grid.children.length - 7; // minus headers
+            const remainingDays = 42 - totalDays - 7; // 6 rows * 7 days - existing days - headers
+            for (let i = 1; i <= remainingDays; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                day.innerHTML = `<div class="day-number">${i}</div>`;
+                grid.appendChild(day);
+            }
+        }
+
+        function changeMonth(direction) {
+            if (direction === 0) {
+                currentDate = new Date(2026, 1, 7); // Reset to today
+            } else {
+                currentDate.setMonth(currentDate.getMonth() + direction);
+            }
+            renderCalendar();
+        }
+
+        // Render calendar when Events page is opened
+        const originalShowPage = showPage;
+        showPage = function(pageId) {
+            originalShowPage(pageId);
+            if (pageId === 'eventsPage') {
+                setTimeout(() => renderCalendar(), 100);
+            }
+        };
     </script>
 </body>
 </html>
