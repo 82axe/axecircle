@@ -1,152 +1,1208 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>INNER CIRCLE</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: "Courier New", monospace;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inner Circle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      margin: 0;
-      background: #000;
-      color: #00ff66;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+        :root {
+            --primary-dark: #0a0a0a;
+            --accent-gold: #d4af37;
+            --text-light: #f5f5f5;
+            --border-subtle: rgba(212, 175, 55, 0.2);
+            --node-bg: rgba(20, 20, 20, 0.95);
+            --connection-color: rgba(212, 175, 55, 0.3);
+        }
 
-    .terminal {
-      width: 90%;
-      max-width: 720px;
-      border: 1px solid #00ff66;
-      padding: 24px;
-      box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
-    }
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
 
-    .title {
-      font-size: 20px;
-      margin-bottom: 16px;
-      text-align: center;
-      letter-spacing: 2px;
-    }
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, var(--accent-gold) 2px, var(--accent-gold) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, var(--accent-gold) 2px, var(--accent-gold) 4px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
 
-    .log {
-      font-size: 14px;
-      line-height: 1.6;
-      min-height: 120px;
-      margin-bottom: 16px;
-      white-space: pre-line;
-    }
+        /* 페이지 공통 */
+        .page {
+            display: none;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
 
-    .input-line {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+        .page.active {
+            display: block;
+            animation: fadeIn 0.8s ease;
+        }
 
-    .prompt {
-      color: #00ff66;
-    }
+        /* ==================== 로그인 페이지 ==================== */
+        .login-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
 
-    input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #00ff66;
-      font-size: 14px;
-    }
+        .login-page.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.95);
+        }
 
-    .hidden {
-      display: none;
-    }
+        .login-container {
+            text-align: center;
+            max-width: 500px;
+            padding: 60px 40px;
+            border: 1px solid var(--border-subtle);
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
 
-    .access {
-      color: #00ffaa;
-      margin-top: 16px;
-      white-space: pre-line;
-    }
+        .login-container::before,
+        .login-container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--accent-gold);
+        }
 
-    .blink {
-      animation: blink 1s infinite;
-    }
+        .login-container::before {
+            top: -1px;
+            left: -1px;
+            border-right: none;
+            border-bottom: none;
+        }
 
-    @keyframes blink {
-      50% {
-        opacity: 0;
-      }
-    }
-  </style>
+        .login-container::after {
+            bottom: -1px;
+            right: -1px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: 8px;
+            margin-bottom: 10px;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            animation: fadeInDown 1s ease;
+        }
+
+        .tagline {
+            font-size: 14px;
+            letter-spacing: 3px;
+            color: rgba(245, 245, 245, 0.6);
+            margin-bottom: 50px;
+            font-family: 'Space Mono', monospace;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .password-group {
+            margin: 40px 0;
+            animation: fadeIn 2s ease;
+        }
+
+        .password-label {
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: transparent;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-light);
+            font-size: 18px;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+        }
+
+        .enter-button {
+            margin-top: 30px;
+            padding: 15px 60px;
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            font-size: 14px;
+            letter-spacing: 3px;
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .enter-button:hover {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 12px;
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .error-message.show {
+            opacity: 1;
+        }
+
+        /* ==================== 메인 페이지 ==================== */
+        .main-page {
+            padding: 40px;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 60px;
+            animation: slideDown 1s ease;
+        }
+
+        .header-logo {
+            font-size: 24px;
+            letter-spacing: 6px;
+            color: var(--accent-gold);
+            font-weight: 300;
+        }
+
+        .nav {
+            display: flex;
+            gap: 40px;
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+        }
+
+        .nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .nav a:hover {
+            color: var(--accent-gold);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 100px 0;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .hero-title {
+            font-size: 72px;
+            font-weight: 300;
+            letter-spacing: 12px;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: rgba(245, 245, 245, 0.7);
+            letter-spacing: 4px;
+            font-family: 'Space Mono', monospace;
+            margin-bottom: 60px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 60px;
+            max-width: 1000px;
+            margin: 0 auto 120px;
+            padding: 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 40px 20px;
+            border: 1px solid var(--border-subtle);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease;
+            animation-fill-mode: both;
+        }
+
+        .stat-item:nth-child(1) { animation-delay: 0.2s; }
+        .stat-item:nth-child(2) { animation-delay: 0.4s; }
+        .stat-item:nth-child(3) { animation-delay: 0.6s; }
+
+        .stat-item:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.1);
+        }
+
+        .stat-number {
+            font-size: 48px;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: rgba(245, 245, 245, 0.6);
+            font-family: 'Space Mono', monospace;
+            text-transform: uppercase;
+        }
+
+        /* ==================== 워크플로우 섹션 ==================== */
+        .workflow-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 20px;
+            animation: fadeIn 2s ease;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            letter-spacing: 6px;
+            color: var(--accent-gold);
+            margin-bottom: 60px;
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+
+        .workflow-container {
+            position: relative;
+            height: 600px;
+            margin: 0 auto;
+        }
+
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .nodes-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .node {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInScale 0.8s ease backwards;
+        }
+
+        .node:hover {
+            transform: translate(-50%, -50%) scale(1.08);
+            z-index: 10;
+        }
+
+        .node:hover .node-inner {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
+        }
+
+        .node-inner {
+            background: var(--node-bg);
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            padding: 25px 35px;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            min-width: 180px;
+        }
+
+        .center-node .node-inner {
+            padding: 40px 50px;
+            border-width: 3px;
+            border-color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .node-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+        }
+
+        .center-node .node-icon {
+            font-size: 48px;
+        }
+
+        .node-title {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .center-node .node-title {
+            font-size: 24px;
+            letter-spacing: 4px;
+        }
+
+        .node-desc {
+            font-size: 13px;
+            color: rgba(245, 245, 245, 0.6);
+            letter-spacing: 1px;
+        }
+
+        .node-status {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-gold);
+            margin-top: 10px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .connection-line {
+            stroke: var(--connection-color);
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 5, 5;
+            animation: dashMove 20s linear infinite;
+        }
+
+        .connection-dot {
+            fill: var(--accent-gold);
+            opacity: 0;
+            animation: dotTravel 3s ease-in-out infinite;
+        }
+
+        .tooltip {
+            position: fixed;
+            background: rgba(212, 175, 55, 0.95);
+            color: var(--primary-dark);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 1px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            white-space: nowrap;
+        }
+
+        /* ==================== 섹션 페이지 ==================== */
+        .section-page {
+            padding: 40px;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .section-hero {
+            text-align: center;
+            padding: 80px 20px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .section-page-title {
+            font-size: 64px;
+            font-weight: 300;
+            letter-spacing: 10px;
+            margin-bottom: 20px;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            color: rgba(245, 245, 245, 0.6);
+            letter-spacing: 3px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .content-grid {
+            max-width: 1200px;
+            margin: 60px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            animation: fadeIn 1.2s ease;
+        }
+
+        .content-card {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid var(--border-subtle);
+            padding: 40px 30px;
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.1);
+        }
+
+        .card-icon {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 24px;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            color: var(--accent-gold);
+            font-family: 'Space Mono', monospace;
+        }
+
+        .card-description {
+            font-size: 15px;
+            line-height: 1.8;
+            color: rgba(245, 245, 245, 0.7);
+        }
+
+        .card-meta {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-subtle);
+            font-size: 12px;
+            color: rgba(245, 245, 245, 0.5);
+            font-family: 'Space Mono', monospace;
+        }
+
+        .nav-button {
+            padding: 12px 30px;
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            font-size: 12px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .nav-button:hover {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+        }
+
+        /* ==================== 애니메이션 ==================== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes dashMove {
+            to {
+                stroke-dashoffset: -1000;
+            }
+        }
+
+        @keyframes dotTravel {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* ==================== 반응형 ==================== */
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 40px 20px;
+                margin: 20px;
+            }
+
+            .logo {
+                font-size: 36px;
+                letter-spacing: 6px;
+            }
+
+            .hero-title {
+                font-size: 48px;
+                letter-spacing: 8px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .nav {
+                gap: 20px;
+                flex-wrap: wrap;
+            }
+
+            .workflow-container {
+                height: 500px;
+            }
+
+            .node-inner {
+                padding: 20px 25px;
+                min-width: 140px;
+            }
+
+            .node-title {
+                font-size: 14px;
+                letter-spacing: 1px;
+            }
+
+            .center-node .node-inner {
+                padding: 30px 40px;
+            }
+
+            .section-page-title {
+                font-size: 42px;
+                letter-spacing: 6px;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="terminal">
-    <div class="title">INNER CIRCLE :: SECURE CONSOLE</div>
+    <div class="background-pattern"></div>
 
-    <div id="log" class="log"></div>
-
-    <div class="input-line">
-      <span class="prompt">root@circle:~$</span>
-      <input id="password" type="password" placeholder="enter access key" />
+    <!-- ==================== 로그인 페이지 ==================== -->
+    <div class="login-page" id="loginPage">
+        <div class="login-container">
+            <div class="logo">Inner Circle</div>
+            <div class="tagline">For the chosen few</div>
+            
+            <div class="password-group">
+                <div class="password-label">Enter Access Code</div>
+                <input 
+                    type="password" 
+                    class="password-input" 
+                    id="passwordInput"
+                    maxlength="3"
+                    placeholder="•••"
+                />
+            </div>
+            
+            <button class="enter-button" id="enterButton">Enter</button>
+            <div class="error-message" id="errorMessage">Invalid access code</div>
+        </div>
     </div>
 
-    <div id="access" class="access hidden"></div>
-  </div>
+    <!-- ==================== 메인 페이지 ==================== -->
+    <div class="page main-page" id="mainPage">
+        <header class="header">
+            <div class="header-logo">INNER CIRCLE</div>
+            <nav class="nav">
+                <a onclick="scrollToSection('members')">Members</a>
+                <a onclick="scrollToSection('forum')">Forum</a>
+                <a onclick="scrollToSection('events')">Events</a>
+                <a onclick="scrollToSection('resources')">Resources</a>
+            </nav>
+        </header>
 
-  <script>
-    const log = document.getElementById("log");
-    const input = document.getElementById("password");
-    const access = document.getElementById("access");
+        <section class="hero">
+            <h1 class="hero-title">Welcome Inside</h1>
+            <p class="hero-subtitle">An exclusive community of remarkable individuals</p>
+        </section>
 
-    const bootText = [
-      "[ INIT ] secure environment loading...",
-      "[ OK ] encrypted channel established",
-      "[ OK ] firewall active",
-      "[ WAIT ] authentication required",
-      ""
-    ];
+        <section class="stats">
+            <div class="stat-item">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Active Members</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">48</div>
+                <div class="stat-label">Discussions</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Upcoming Events</div>
+            </div>
+        </section>
 
-    let line = 0;
+        <!-- 워크플로우 섹션 -->
+        <section class="workflow-section">
+            <h2 class="section-title">Explore The Circle</h2>
+            <div class="workflow-container">
+                <svg id="connectionsSvg"></svg>
+                <div class="nodes-container" id="nodesContainer"></div>
+            </div>
+        </section>
+    </div>
+    
+    <div class="tooltip" id="tooltip"></div>
 
-    function typeBoot() {
-      if (line < bootText.length) {
-        log.textContent += bootText[line] + "\n";
-        line++;
-        setTimeout(typeBoot, 500);
-      }
-    }
+    <!-- ==================== Members 페이지 ==================== -->
+    <div class="page section-page" id="membersPage">
+        <header class="header">
+            <div class="header-logo" style="cursor: pointer;" onclick="showPage('mainPage')">INNER CIRCLE</div>
+            <button class="nav-button" onclick="showPage('mainPage')">← Back to Home</button>
+        </header>
 
-    typeBoot();
+        <section class="section-hero">
+            <h1 class="section-page-title">Members</h1>
+            <p class="section-subtitle">Our distinguished community</p>
+        </section>
 
-    input.addEventListener("keydown", function (e) {
-      if (e.key === "Enter") {
-        const value = input.value;
-        input.value = "";
+        <div class="content-grid">
+            <div class="content-card">
+                <div class="card-icon">👤</div>
+                <div class="card-title">Active Members</div>
+                <div class="card-description">12 carefully selected individuals forming the core of our exclusive community.</div>
+                <div class="card-meta">Last updated: Today</div>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">🎯</div>
+                <div class="card-title">Member Directory</div>
+                <div class="card-description">Connect with other members, view profiles, and build meaningful relationships.</div>
+                <div class="card-meta">48 connections made</div>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">⭐</div>
+                <div class="card-title">Member Spotlight</div>
+                <div class="card-description">Monthly features highlighting exceptional contributions from our community.</div>
+                <div class="card-meta">3 featured this month</div>
+            </div>
+        </div>
+    </div>
 
-        log.textContent += `root@circle:~$ ******\n`;
+    <!-- ==================== Forum 페이지 ==================== -->
+    <div class="page section-page" id="forumPage">
+        <header class="header">
+            <div class="header-logo" style="cursor: pointer;" onclick="showPage('mainPage')">INNER CIRCLE</div>
+            <button class="nav-button" onclick="showPage('mainPage')">← Back to Home</button>
+        </header>
 
-        if (value === "666") {
-          log.textContent += "[ ACCESS GRANTED ]\n";
-          showAccess();
-        } else {
-          log.textContent += "[ ACCESS DENIED ] invalid key\n";
+        <section class="section-hero">
+            <h1 class="section-page-title">Forum</h1>
+            <p class="section-subtitle">Engage in meaningful discussions</p>
+        </section>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <div class="card-icon">💭</div>
+                <div class="card-title">Latest Discussions</div>
+                <div class="card-description">Join ongoing conversations on topics that matter to our community.</div>
+                <div class="card-meta">28 active threads</div>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">🔥</div>
+                <div class="card-title">Trending Topics</div>
+                <div class="card-description">The most engaging discussions happening right now.</div>
+                <div class="card-meta">156 replies today</div>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">📝</div>
+                <div class="card-title">Create Thread</div>
+                <div class="card-description">Start a new conversation and share your insights with the community.</div>
+                <div class="card-meta">New</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== Events 페이지 ==================== -->
+    <div class="page section-page" id="eventsPage">
+        <header class="header">
+            <div class="header-logo" style="cursor: pointer;" onclick="showPage('mainPage')">INNER CIRCLE</div>
+            <button class="nav-button" onclick="showPage('mainPage')">← Back to Home</button>
+        </header>
+
+        <section class="section-hero">
+            <h1 class="section-page-title">Events</h1>
+            <p class="section-subtitle">Exclusive gatherings & experiences</p>
+        </section>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <div class="card-icon">📅</div>
+                <div class="card-title">Upcoming Events</div>
+                <div class="card-description">6 exclusive events scheduled for members only.</div>
+                <div class="card-meta">Next: Feb 14, 2026</div>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">🎉</div>
+                <div class="card-title">Past Events</div>
+                <div class="card-description">Relive memories from our previous gatherings and meetups.</div>
+                <div class="card-meta">24 events hosted</div>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">✨</div>
+                <div class="card-title">Private Sessions</div>
+                <div class="card-description">Intimate workshops and masterclasses with industry leaders.</div>
+                <div class="card-meta">Monthly</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== Resources 페이지 ==================== -->
+    <div class="page section-page" id="resourcesPage">
+        <header class="header">
+            <div class="header-logo" style="cursor: pointer;" onclick="showPage('mainPage')">INNER CIRCLE</div>
+            <button class="nav-button" onclick="showPage('mainPage')">← Back to Home</button>
+        </header>
+
+        <section class="section-hero">
+            <h1 class="section-page-title">Resources</h1>
+            <p class="section-subtitle">Exclusive content & materials</p>
+        </section>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <div class="card-icon">📚</div>
+                <div class="card-title">Knowledge Base</div>
+                <div class="card-description">Curated collection of articles, guides, and research materials.</div>
+                <div class="card-meta">287 documents</div>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">🎓</div>
+                <div class="card-title">Learning Library</div>
+                <div class="card-description">Video courses and tutorials created exclusively for members.</div>
+                <div class="card-meta">42 courses available</div>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">🔒</div>
+                <div class="card-title">Private Archives</div>
+                <div class="card-description">Access restricted materials and member-only resources.</div>
+                <div class="card-meta">Members only</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== Projects 페이지 ==================== -->
+    <div class="page section-page" id="projectsPage">
+        <header class="header">
+            <div class="header-logo" style="cursor: pointer;" onclick="showPage('mainPage')">INNER CIRCLE</div>
+            <button class="nav-button" onclick="showPage('mainPage')">← Back to Home</button>
+        </header>
+
+        <section class="section-hero">
+            <h1 class="section-page-title">Projects</h1>
+            <p class="section-subtitle">Collaborative endeavors</p>
+        </section>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <div class="card-icon">🚀</div>
+                <div class="card-title">Active Projects</div>
+                <div class="card-description">Current collaborative initiatives and ventures by our members.</div>
+                <div class="card-meta">8 ongoing</div>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">🤝</div>
+                <div class="card-title">Partnerships</div>
+                <div class="card-description">Strategic collaborations and joint ventures within the circle.</div>
+                <div class="card-meta">14 partnerships</div>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">💼</div>
+                <div class="card-title">Opportunities</div>
+                <div class="card-description">Exclusive business and collaboration opportunities for members.</div>
+                <div class="card-meta">5 new offers</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== Insights 페이지 ==================== -->
+    <div class="page section-page" id="insightsPage">
+        <header class="header">
+            <div class="header-logo" style="cursor: pointer;" onclick="showPage('mainPage')">INNER CIRCLE</div>
+            <button class="nav-button" onclick="showPage('mainPage')">← Back to Home</button>
+        </header>
+
+        <section class="section-hero">
+            <h1 class="section-page-title">Insights</h1>
+            <p class="section-subtitle">Wisdom from the circle</p>
+        </section>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <div class="card-icon">💡</div>
+                <div class="card-title">Member Insights</div>
+                <div class="card-description">Shared knowledge and experiences from our distinguished members.</div>
+                <div class="card-meta">93 insights shared</div>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">📊</div>
+                <div class="card-title">Trend Analysis</div>
+                <div class="card-description">Data-driven insights and market intelligence from our community.</div>
+                <div class="card-meta">Updated weekly</div>
+            </div>
+            <div class="content-card">
+                <div class="card-icon">🎯</div>
+                <div class="card-title">Success Stories</div>
+                <div class="card-description">Learn from the achievements and lessons of fellow members.</div>
+                <div class="card-meta">18 featured stories</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== 페이지 관리 ====================
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+            
+            if (pageId === 'mainPage') {
+                setTimeout(() => {
+                    drawConnections();
+                }, 100);
+            }
         }
-      }
-    });
 
-    function showAccess() {
-      access.classList.remove("hidden");
-      access.textContent =
-        ">> WELCOME TO INNER CIRCLE\n\n" +
-        "This space is intentionally restricted.\n" +
-        "No public data. No identities. No noise.\n\n" +
-        "Status: CONNECTED\n" +
-        "Privilege: AUTHORIZED\n\n" +
-        ">> awaiting further instructions...\n";
-    }
-  </script>
+        function scrollToSection(section) {
+            const element = document.querySelector('.workflow-section');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // ==================== 로그인 ====================
+        const passwordInput = document.getElementById('passwordInput');
+        const enterButton = document.getElementById('enterButton');
+        const errorMessage = document.getElementById('errorMessage');
+        const loginPage = document.getElementById('loginPage');
+        const mainPage = document.getElementById('mainPage');
+        const correctPassword = '666';
+
+        function checkPassword() {
+            const enteredPassword = passwordInput.value;
+            
+            if (enteredPassword === correctPassword) {
+                loginPage.classList.add('hidden');
+                setTimeout(() => {
+                    mainPage.classList.add('active');
+                    setTimeout(() => {
+                        initMindmap();
+                    }, 100);
+                }, 400);
+            } else {
+                errorMessage.classList.add('show');
+                passwordInput.value = '';
+                passwordInput.focus();
+                
+                setTimeout(() => {
+                    errorMessage.classList.remove('show');
+                }, 2000);
+            }
+        }
+
+        enterButton.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkPassword();
+        });
+
+        window.addEventListener('load', () => {
+            passwordInput.focus();
+        });
+
+        // ==================== 마인드맵 워크플로우 ====================
+        const nodes = [
+            {
+                id: 'center',
+                title: 'Inner Circle',
+                desc: 'Navigation Hub',
+                icon: '◈',
+                x: 50,
+                y: 50,
+                isCenter: true,
+                page: null
+            },
+            {
+                id: 'members',
+                title: 'Members',
+                desc: 'Active community',
+                icon: '👥',
+                x: 25,
+                y: 25,
+                page: 'membersPage'
+            },
+            {
+                id: 'forum',
+                title: 'Forum',
+                desc: 'Discussions',
+                icon: '💬',
+                x: 75,
+                y: 25,
+                page: 'forumPage'
+            },
+            {
+                id: 'events',
+                title: 'Events',
+                desc: 'Gatherings',
+                icon: '📅',
+                x: 25,
+                y: 75,
+                page: 'eventsPage'
+            },
+            {
+                id: 'resources',
+                title: 'Resources',
+                desc: 'Exclusive content',
+                icon: '📚',
+                x: 75,
+                y: 75,
+                page: 'resourcesPage'
+            },
+            {
+                id: 'projects',
+                title: 'Projects',
+                desc: 'Collaborations',
+                icon: '🚀',
+                x: 15,
+                y: 50,
+                page: 'projectsPage'
+            },
+            {
+                id: 'insights',
+                title: 'Insights',
+                desc: 'Knowledge',
+                icon: '💡',
+                x: 85,
+                y: 50,
+                page: 'insightsPage'
+            }
+        ];
+
+        const connections = [
+            { from: 'center', to: 'members' },
+            { from: 'center', to: 'forum' },
+            { from: 'center', to: 'events' },
+            { from: 'center', to: 'resources' },
+            { from: 'center', to: 'projects' },
+            { from: 'center', to: 'insights' },
+            { from: 'members', to: 'forum' },
+            { from: 'forum', to: 'insights' },
+            { from: 'events', to: 'projects' },
+            { from: 'resources', to: 'insights' }
+        ];
+
+        function initMindmap() {
+            const nodesContainer = document.getElementById('nodesContainer');
+            const tooltip = document.getElementById('tooltip');
+            
+            nodesContainer.innerHTML = '';
+
+            nodes.forEach((node, index) => {
+                const nodeEl = document.createElement('div');
+                nodeEl.className = `node ${node.isCenter ? 'center-node' : ''}`;
+                nodeEl.style.left = `${node.x}%`;
+                nodeEl.style.top = `${node.y}%`;
+                nodeEl.style.animationDelay = `${index * 0.15}s`;
+                
+                nodeEl.innerHTML = `
+                    <div class="node-inner">
+                        <div class="node-icon">${node.icon}</div>
+                        <div class="node-title">${node.title}</div>
+                        <div class="node-desc">${node.desc}</div>
+                        ${!node.isCenter ? '<div class="node-status"></div>' : ''}
+                    </div>
+                `;
+
+                if (node.page && !node.isCenter) {
+                    nodeEl.addEventListener('click', () => {
+                        nodeEl.style.transform = 'translate(-50%, -50%) scale(1.15)';
+                        setTimeout(() => {
+                            showPage(node.page);
+                        }, 300);
+                    });
+                }
+
+                nodeEl.addEventListener('mouseenter', () => {
+                    if (!node.isCenter) {
+                        tooltip.textContent = `Click to visit ${node.title}`;
+                        tooltip.style.opacity = '1';
+                    }
+                });
+
+                nodeEl.addEventListener('mousemove', (e) => {
+                    tooltip.style.left = `${e.clientX + 15}px`;
+                    tooltip.style.top = `${e.clientY + 15}px`;
+                });
+
+                nodeEl.addEventListener('mouseleave', () => {
+                    tooltip.style.opacity = '0';
+                });
+
+                nodesContainer.appendChild(nodeEl);
+            });
+
+            drawConnections();
+        }
+
+        function drawConnections() {
+            const svg = document.getElementById('connectionsSvg');
+            const container = document.querySelector('.workflow-container');
+            
+            if (!container) return;
+            
+            svg.innerHTML = '';
+
+            const viewportWidth = container.offsetWidth;
+            const viewportHeight = container.offsetHeight;
+
+            connections.forEach((conn, index) => {
+                const fromNode = nodes.find(n => n.id === conn.from);
+                const toNode = nodes.find(n => n.id === conn.to);
+
+                const x1 = (fromNode.x / 100) * viewportWidth;
+                const y1 = (fromNode.y / 100) * viewportHeight;
+                const x2 = (toNode.x / 100) * viewportWidth;
+                const y2 = (toNode.y / 100) * viewportHeight;
+
+                const dx = x2 - x1;
+                const dy = y2 - y1;
+                const cx = x1 + dx / 2;
+                const cy = y1 + dy / 2;
+                
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('class', 'connection-line');
+                path.setAttribute('d', `M ${x1} ${y1} Q ${cx} ${cy - 50} ${x2} ${y2}`);
+                path.setAttribute('id', `path${index}`);
+                svg.appendChild(path);
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('class', 'connection-dot');
+                circle.setAttribute('r', '4');
+                circle.style.animationDelay = `${index * 0.4}s`;
+
+                const animate = document.createElementNS('http://www.w3.org/2000/svg', 'animateMotion');
+                animate.setAttribute('dur', '3s');
+                animate.setAttribute('repeatCount', 'indefinite');
+                animate.setAttribute('begin', `${index * 0.4}s`);
+                
+                const mpath = document.createElementNS('http://www.w3.org/2000/svg', 'mpath');
+                mpath.setAttributeNS('http://www.w3.org/1999/xlink', 'href', `#path${index}`);
+                
+                animate.appendChild(mpath);
+                circle.appendChild(animate);
+                svg.appendChild(circle);
+            });
+        }
+
+        window.addEventListener('resize', () => {
+            if (document.getElementById('mainPage').classList.contains('active')) {
+                drawConnections();
+            }
+        });
+    </script>
 </body>
 </html>
